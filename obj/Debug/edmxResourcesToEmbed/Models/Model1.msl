@@ -1,0 +1,56 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+  <EntityContainerMapping StorageEntityContainer="iiteAttendanceModelStoreContainer" CdmEntityContainer="iiteAttendanceEntities">
+    <EntitySetMapping Name="Absence">
+      <EntityTypeMapping TypeName="iiteAttendanceModel.Absence">
+        <MappingFragment StoreEntitySet="Absence">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="dateheure" ColumnName="dateheure" />
+          <ScalarProperty Name="matiere_id" ColumnName="matiere_id" />
+          <ScalarProperty Name="eleve_id" ColumnName="eleve_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Eleve">
+      <EntityTypeMapping TypeName="iiteAttendanceModel.Eleve">
+        <MappingFragment StoreEntitySet="Eleve">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+          <ScalarProperty Name="filiere_id" ColumnName="filiere_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Filiere">
+      <EntityTypeMapping TypeName="iiteAttendanceModel.Filiere">
+        <MappingFragment StoreEntitySet="Filiere">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="professeur_id" ColumnName="professeur_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Matiere">
+      <EntityTypeMapping TypeName="iiteAttendanceModel.Matiere">
+        <MappingFragment StoreEntitySet="Matiere">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="professeur_id" ColumnName="professeur_id" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+    <EntitySetMapping Name="Professeur">
+      <EntityTypeMapping TypeName="iiteAttendanceModel.Professeur">
+        <MappingFragment StoreEntitySet="Professeur">
+          <ScalarProperty Name="id" ColumnName="id" />
+          <ScalarProperty Name="username" ColumnName="username" />
+          <ScalarProperty Name="password" ColumnName="password" />
+          <ScalarProperty Name="name" ColumnName="name" />
+          <ScalarProperty Name="last_name" ColumnName="last_name" />
+        </MappingFragment>
+      </EntityTypeMapping>
+    </EntitySetMapping>
+  </EntityContainerMapping>
+</Mapping>

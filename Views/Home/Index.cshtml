@@ -1,0 +1,262 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<h1 class="welcome-text">Hello Mr. Admin @ViewBag.ProfessorName</h1>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="row">
+                <div class="four col-md-3">
+                    <div class="counter-box colored">
+                        <i class="fa fa-thumbs-o-up"></i>
+                        <span class="counter"> @ViewBag.NombreEleves</span>
+                        <p>Nombre d'etudiants</p>
+                    </div>
+                </div>
+                <div class="four col-md-3">
+                    <div class="counter-box">
+                        <i class="fa fa-group"></i>
+                        <span class="counter">@ViewBag.NombreAbsences</span>
+                        <p>Nombre D'absences</p>
+                    </div>
+                </div>
+                <div class="four col-md-3">
+                    <div class="counter-box">
+                        <i class="fa  fa-shopping-cart"></i>
+                        <span class="counter">@ViewBag.NombreMatieres</span>
+                        <p>Nombre de matieres</p>
+                    </div>
+                </div>
+                <div class="four col-md-3">
+                    <div class="counter-box">
+                        <i class="fa  fa-user"></i>
+                        <span class="counter">@ViewBag.NombreFilieres</span>
+                        <p>Nombre de filieres</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><main class="main-left">
+    <div class="dropdown">
+        <label for="studentDropdown">Select a student</label>
+        <select id="studentDropdown" class="btn btn-primary dropdown-toggle custom-dropdown">
+            <option value="">Select a student</option>
+            @foreach (var student in ViewBag.Students)
+            {
+                <option value="@student.id">@student.name @student.last_name</option>
+            }
+        </select>
+        <div id="piechartdiv">
+            <canvas id="pieChart" width="10" height="10"></canvas>
+        </div>
+
+    </div>
+
+
+    <p>Nombre d'élèves : @ViewBag.NombreEleves</p>
+    <p>Nombre d'absences : <span id="absenceCountStudent">0</span></p>
+</main>
+
+<main class="main-right">
+    <div class="dropdown">
+        <label for="subjectDropdown">Select a subject</label>
+        <select id="subjectDropdown" class="btn btn-primary dropdown-toggle custom-dropdown">
+            <option value="">Select a subject</option>
+            @foreach (var subject in ViewBag.Matieres)
+            {
+                <option value="@subject.id">@subject.name</option>
+            }
+        </select>
+    </div>
+
+    <p>Nombre d'élèves : @ViewBag.NombreEleves</p>
+    <p>Nombre d'absences : <span id="absenceCountSubject">0</span></p>
+    <p>Élèves absents:</p>
+    <table id="absentStudentsTable" class="table">
+        <thead>
+            <tr>
+                <th>First Name</th>
+                <th>Last Name</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- Absent students will be dynamically added here -->
+        </tbody>
+    </table>
+</main>
+
+<style>
+    #piechartdiv {
+        width: 300px; /* Set the desired width */
+        height: 250px; /* Set the desired height */
+        margin-left: 20px; /*
+    }
+    .custom-dropdown {
+        background-color: white; /* Set background color to white */
+        color: black; /* Set text color to black */
+        border-color: #ced4da; /* Set border color */
+        border-radius: 5px; /* Optional: Set border radius */
+    }
+
+    .custom-dropdown option {
+        background-color: white; /* Set background color of options to white */
+        color: black; /* Set text color of options to black */
+    }
+
+    .container {
+        margin-top: 100px;
+    }
+
+    .counter-box {
+        display: block;
+        background: #f6f6f6;
+        padding: 40px 20px 37px;
+        text-align: center
+    }
+
+        .counter-box p {
+            margin: 5px 0 0;
+            padding: 0;
+            color: #909090;
+            font-size: 18px;
+            font-weight: 500
+        }
+
+        .counter-box i {
+            font-size: 60px;
+            margin: 0 0 15px;
+            color: #d2d2d2
+        }
+
+    .counter {
+        display: block;
+        font-size: 32px;
+        font-weight: 700;
+        color: #666;
+        line-height: 28px
+    }
+
+    .counter-box.colored {
+        background: #3acf87;
+    }
+
+        .counter-box.colored p,
+        .counter-box.colored i,
+        .counter-box.colored .counter {
+            color: #fff
+        }
+
+    .welcome-text {
+        text-align: center;
+        font-size: 36px;
+        font-family: 'Arial', sans-serif; /* Specify your desired font family here */
+        color: #333; /* Specify your desired text color here */
+    }
+
+    .main-left {
+        float: left;
+        width: 50%;
+    }
+
+    .main-right {
+        float: right;
+        width: 50%;
+    }
+
+    main {
+        margin-top: 50px;
+    }
+</style>
+
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        function updatePieChart(studentId) {
+            $.ajax({
+                url: '@Url.Action("GetAbsencesForSubjectchart", "Home")',
+                type: 'GET',
+                data: { studentId: studentId },
+                success: function (data) {
+                    console.log('Data received from server:', data);
+
+                    var labels = Object.keys(data);
+                    var counts = Object.values(data);
+                    console.log('Labels:', labels);
+                    console.log('Counts:', counts);
+
+                    // Update the pie chart data
+                    pieChart.data.labels = labels;
+                    pieChart.data.datasets[0].data = counts;
+
+                    // Update the chart
+                    pieChart.update();
+                },
+                error: function () {
+                    console.log('Error occurred while fetching absences for the subject.');
+                }
+            });
+        }
+
+        // Initial student selection
+        var initialStudentId = $('#studentDropdown').val();
+        updatePieChart(initialStudentId);
+
+        // Dropdown change event
+        $('#studentDropdown').change(function () {
+            var studentId = $(this).val();
+            if (studentId !== '') {
+                updatePieChart(studentId);
+            }
+        });
+
+        // Get the context of the canvas element
+        var pieChartContext = document.getElementById('pieChart').getContext('2d');
+
+        // Create the pie chart
+        var pieChart = new Chart(pieChartContext, {
+            type: 'pie',
+            data: {
+                labels: [], // Initially empty, will be updated dynamically
+                datasets: [{
+                    data: [], // Initially empty, will be updated dynamically
+                    backgroundColor: ["#36A2EB", "#FF6384", "#FFCE56", "#4BC0C0", "#9966FF"] // Example colors
+                }]
+            },
+            options: {
+                responsive: true, // Ensure the chart doesn't resize automatically
+                maintainAspectRatio: false // Ensure the chart doesn't maintain aspect ratio
+            }
+        });
+
+       $('#subjectDropdown').change(function () {
+        var subjectId = $(this).val();
+        if (subjectId !== '') {
+            $.ajax({
+                url: '@Url.Action("GetAbsencesForSubject", "Home")',
+                type: 'GET',
+                data: { subjectId: subjectId },
+                success: function (result) {
+                    $('#absenceCountSubject').text(result.absenceCount);
+
+                    // Clear existing table content
+                    $('#absentStudentsTable tbody').empty();
+
+                    // Populate table with absent students
+                    $.each(result.absentStudents, function (index, student) {
+                        $('#absentStudentsTable tbody').append('<tr><td>' + student.name + '</td><td>' + student.last_name + '</td></tr>');
+                    });
+                },
+                error: function () {
+                    console.log('Error occurred while fetching absences for the subject.');
+                }
+            });
+        } else {
+            $('#absenceCountSubject').text('0');
+            $('#absentStudentsTable tbody').empty(); // Clear table if no subject selected
+        }
+    });
+});
+</script>

@@ -1,0 +1,146 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iiteAttendanceModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+  <EntityType Name="Absence">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="dateheure" Type="DateTime" Precision="3" />
+    <Property Name="matiere_id" Type="Int32" />
+    <Property Name="eleve_id" Type="Int32" />
+    <NavigationProperty Name="Eleve" Relationship="Self.FK__Absence__eleve_i__4316F928" FromRole="Absence" ToRole="Eleve" />
+    <NavigationProperty Name="Matiere" Relationship="Self.FK__Absence__matiere__4222D4EF" FromRole="Absence" ToRole="Matiere" />
+  </EntityType>
+  <EntityType Name="Eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="filiere_id" Type="Int32" />
+    <NavigationProperty Name="Absence" Relationship="Self.FK__Absence__eleve_i__4316F928" FromRole="Eleve" ToRole="Absence" />
+    <NavigationProperty Name="Filiere" Relationship="Self.FK__Eleve__filiere_i__3F466844" FromRole="Eleve" ToRole="Filiere" />
+  </EntityType>
+  <EntityType Name="Filiere">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="professeur_id" Type="Int32" />
+    <NavigationProperty Name="Eleve" Relationship="Self.FK__Eleve__filiere_i__3F466844" FromRole="Filiere" ToRole="Eleve" />
+    <NavigationProperty Name="Professeur" Relationship="Self.FK__Filiere__profess__3C69FB99" FromRole="Filiere" ToRole="Professeur" />
+  </EntityType>
+  <EntityType Name="Matiere">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="name" Type="String" MaxLength="100" FixedLength="false" Unicode="false" />
+    <Property Name="professeur_id" Type="Int32" />
+    <NavigationProperty Name="Absence" Relationship="Self.FK__Absence__matiere__4222D4EF" FromRole="Matiere" ToRole="Absence" />
+    <NavigationProperty Name="Professeur" Relationship="Self.FK__Matiere__profess__398D8EEE" FromRole="Matiere" ToRole="Professeur" />
+  </EntityType>
+  <EntityType Name="Professeur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+    <Property Name="username" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="password" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <Property Name="last_name" Type="String" MaxLength="50" FixedLength="false" Unicode="false" />
+    <NavigationProperty Name="Filiere" Relationship="Self.FK__Filiere__profess__3C69FB99" FromRole="Professeur" ToRole="Filiere" />
+    <NavigationProperty Name="Matiere" Relationship="Self.FK__Matiere__profess__398D8EEE" FromRole="Professeur" ToRole="Matiere" />
+  </EntityType>
+  <Association Name="FK__Absence__eleve_i__4316F928">
+    <End Role="Eleve" Type="Self.Eleve" Multiplicity="0..1" />
+    <End Role="Absence" Type="Self.Absence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Absence">
+        <PropertyRef Name="eleve_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Absence__matiere__4222D4EF">
+    <End Role="Matiere" Type="Self.Matiere" Multiplicity="0..1" />
+    <End Role="Absence" Type="Self.Absence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matiere">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Absence">
+        <PropertyRef Name="matiere_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Eleve__filiere_i__3F466844">
+    <End Role="Filiere" Type="Self.Filiere" Multiplicity="0..1" />
+    <End Role="Eleve" Type="Self.Eleve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Filiere">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Eleve">
+        <PropertyRef Name="filiere_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Filiere__profess__3C69FB99">
+    <End Role="Professeur" Type="Self.Professeur" Multiplicity="0..1" />
+    <End Role="Filiere" Type="Self.Filiere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Professeur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Filiere">
+        <PropertyRef Name="professeur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Matiere__profess__398D8EEE">
+    <End Role="Professeur" Type="Self.Professeur" Multiplicity="0..1" />
+    <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Professeur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Matiere">
+        <PropertyRef Name="professeur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="iiteAttendanceEntities" annotation:LazyLoadingEnabled="true">
+    <EntitySet Name="Absence" EntityType="Self.Absence" />
+    <EntitySet Name="Eleve" EntityType="Self.Eleve" />
+    <EntitySet Name="Filiere" EntityType="Self.Filiere" />
+    <EntitySet Name="Matiere" EntityType="Self.Matiere" />
+    <EntitySet Name="Professeur" EntityType="Self.Professeur" />
+    <AssociationSet Name="FK__Absence__eleve_i__4316F928" Association="Self.FK__Absence__eleve_i__4316F928">
+      <End Role="Eleve" EntitySet="Eleve" />
+      <End Role="Absence" EntitySet="Absence" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Absence__matiere__4222D4EF" Association="Self.FK__Absence__matiere__4222D4EF">
+      <End Role="Matiere" EntitySet="Matiere" />
+      <End Role="Absence" EntitySet="Absence" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Eleve__filiere_i__3F466844" Association="Self.FK__Eleve__filiere_i__3F466844">
+      <End Role="Filiere" EntitySet="Filiere" />
+      <End Role="Eleve" EntitySet="Eleve" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Filiere__profess__3C69FB99" Association="Self.FK__Filiere__profess__3C69FB99">
+      <End Role="Professeur" EntitySet="Professeur" />
+      <End Role="Filiere" EntitySet="Filiere" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Matiere__profess__398D8EEE" Association="Self.FK__Matiere__profess__398D8EEE">
+      <End Role="Professeur" EntitySet="Professeur" />
+      <End Role="Matiere" EntitySet="Matiere" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

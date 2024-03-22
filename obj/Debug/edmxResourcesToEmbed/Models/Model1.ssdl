@@ -1,0 +1,136 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Schema Namespace="iiteAttendanceModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+  <EntityType Name="Absence">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="dateheure" Type="datetime" />
+    <Property Name="matiere_id" Type="int" />
+    <Property Name="eleve_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Eleve">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="last_name" Type="varchar" MaxLength="50" />
+    <Property Name="filiere_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Filiere">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="professeur_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Matiere">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="name" Type="varchar" MaxLength="100" />
+    <Property Name="professeur_id" Type="int" />
+  </EntityType>
+  <EntityType Name="Professeur">
+    <Key>
+      <PropertyRef Name="id" />
+    </Key>
+    <Property Name="id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+    <Property Name="username" Type="varchar" MaxLength="50" />
+    <Property Name="password" Type="varchar" MaxLength="50" />
+    <Property Name="name" Type="varchar" MaxLength="50" />
+    <Property Name="last_name" Type="varchar" MaxLength="50" />
+  </EntityType>
+  <Association Name="FK__Absence__eleve_i__4316F928">
+    <End Role="Eleve" Type="Self.Eleve" Multiplicity="0..1" />
+    <End Role="Absence" Type="Self.Absence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Eleve">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Absence">
+        <PropertyRef Name="eleve_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Absence__matiere__4222D4EF">
+    <End Role="Matiere" Type="Self.Matiere" Multiplicity="0..1" />
+    <End Role="Absence" Type="Self.Absence" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Matiere">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Absence">
+        <PropertyRef Name="matiere_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Eleve__filiere_i__3F466844">
+    <End Role="Filiere" Type="Self.Filiere" Multiplicity="0..1" />
+    <End Role="Eleve" Type="Self.Eleve" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Filiere">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Eleve">
+        <PropertyRef Name="filiere_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Filiere__profess__3C69FB99">
+    <End Role="Professeur" Type="Self.Professeur" Multiplicity="0..1" />
+    <End Role="Filiere" Type="Self.Filiere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Professeur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Filiere">
+        <PropertyRef Name="professeur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <Association Name="FK__Matiere__profess__398D8EEE">
+    <End Role="Professeur" Type="Self.Professeur" Multiplicity="0..1" />
+    <End Role="Matiere" Type="Self.Matiere" Multiplicity="*" />
+    <ReferentialConstraint>
+      <Principal Role="Professeur">
+        <PropertyRef Name="id" />
+      </Principal>
+      <Dependent Role="Matiere">
+        <PropertyRef Name="professeur_id" />
+      </Dependent>
+    </ReferentialConstraint>
+  </Association>
+  <EntityContainer Name="iiteAttendanceModelStoreContainer">
+    <EntitySet Name="Absence" EntityType="Self.Absence" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Eleve" EntityType="Self.Eleve" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Filiere" EntityType="Self.Filiere" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Matiere" EntityType="Self.Matiere" Schema="dbo" store:Type="Tables" />
+    <EntitySet Name="Professeur" EntityType="Self.Professeur" Schema="dbo" store:Type="Tables" />
+    <AssociationSet Name="FK__Absence__eleve_i__4316F928" Association="Self.FK__Absence__eleve_i__4316F928">
+      <End Role="Eleve" EntitySet="Eleve" />
+      <End Role="Absence" EntitySet="Absence" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Absence__matiere__4222D4EF" Association="Self.FK__Absence__matiere__4222D4EF">
+      <End Role="Matiere" EntitySet="Matiere" />
+      <End Role="Absence" EntitySet="Absence" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Eleve__filiere_i__3F466844" Association="Self.FK__Eleve__filiere_i__3F466844">
+      <End Role="Filiere" EntitySet="Filiere" />
+      <End Role="Eleve" EntitySet="Eleve" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Filiere__profess__3C69FB99" Association="Self.FK__Filiere__profess__3C69FB99">
+      <End Role="Professeur" EntitySet="Professeur" />
+      <End Role="Filiere" EntitySet="Filiere" />
+    </AssociationSet>
+    <AssociationSet Name="FK__Matiere__profess__398D8EEE" Association="Self.FK__Matiere__profess__398D8EEE">
+      <End Role="Professeur" EntitySet="Professeur" />
+      <End Role="Matiere" EntitySet="Matiere" />
+    </AssociationSet>
+  </EntityContainer>
+</Schema>

@@ -1,0 +1,161 @@
+﻿@model attendancesystem.Models.Absence
+
+@{
+    ViewBag.Title = "Edit";
+}
+
+<h2>Edit</h2>
+
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+        <h4>Absence</h4>
+        <hr />
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.id)
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.dateheure, htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.EditorFor(model => model.dateheure, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.dateheure, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.matiere_id, "matiere_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("matiere_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.matiere_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            @Html.LabelFor(model => model.eleve_id, "eleve_id", htmlAttributes: new { @class = "control-label col-md-2" })
+            <div class="col-md-10">
+                @Html.DropDownList("eleve_id", null, htmlAttributes: new { @class = "form-control" })
+                @Html.ValidationMessageFor(model => model.eleve_id, "", new { @class = "text-danger" })
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-md-offset-2 col-md-10">
+                @Html.ActionLink("Cancel", "Index", null, new { @class = "btn btn-cancel" })
+                <input type="submit" value="Save" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}
+
+<style>
+    /* Style pour le bouton Cancel */
+    .btn-cancel {
+        background-color: #808080; /* Couleur grise */
+        color: white; /* Texte en blanc */
+        padding: 12px 20px; /* Même taille que le bouton Create */
+        border: none; /* Pas de bordure */
+        border-radius: 5px; /* Coins arrondis */
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-cancel:hover {
+            background-color: #6c757d; /* Assombrir légèrement au survol */
+        }
+
+    /* Style for the form container */
+    .form-container {
+        max-width: 400px;
+        margin: 50px auto; /* Center the form vertically and horizontally */
+        padding: 20px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        background-color: #f7f7f7;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1); /* Add shadow for depth */
+    }
+
+    /* Style for form labels */
+    .form-label {
+        font-weight: bold;
+        margin-bottom: 5px;
+        color: #333;
+    }
+
+    /* Style for form inputs */
+    .form-control {
+        width: 100%;
+        padding: 10px;
+        margin-bottom: 15px;
+        border: 1px solid #ccc;
+        border-radius: 5px;
+        box-sizing: border-box;
+    }
+
+    /* Style for form submit button */
+    .btn-default {
+        background-color: #4CAF50;
+        color: white;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background-color 0.3s ease;
+    }
+
+        .btn-default:hover {
+            background-color: #45a049; /* Darken button on hover */
+        }
+
+    /* Style for validation messages */
+    .validation-message {
+        color: #ff6347; /* Tomato color for error messages */
+        font-size: 14px;
+        margin-top: 5px;
+    }
+
+    /* Style for back to list link */
+    .back-to-list {
+        margin-top: 15px;
+        text-align: center;
+    }
+
+    .col-md-6.col-md-offset-3 {
+        text-align: center;
+    }
+
+    /* Style pour le formulaire */
+    .form-horizontal {
+        max-width: 400px;
+        margin: 0 auto; /* Centre le formulaire horizontalement */
+    }
+
+    .form-horizontal {
+        max-width: 400px;
+        margin: 0 auto; /* Centre le formulaire horizontalement */
+        border: 1px solid #ccc; /* Ajoute une bordure grise */
+        padding: 20px;
+        border-radius: 10px; /* Ajoute un rayon aux coins pour adoucir les bords */
+    }
+    /* Style pour le formulaire */
+    .form-horizontal {
+        max-width: 400px;
+        margin: 120px auto; /* Centre le formulaire verticalement et horizontalement */
+        border: 1px solid #ccc; /* Ajoute une bordure grise */
+        padding: 20px;
+        border-radius: 10px; /* Ajoute un rayon aux coins pour adoucir les bords */
+        animation: slideDown 0.5s ease; /* Ajoute une animation de glissement vers le bas */
+    }
+</style>

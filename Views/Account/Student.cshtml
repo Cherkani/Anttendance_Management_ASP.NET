@@ -1,0 +1,84 @@
+﻿@{
+    ViewBag.Title = "Student";
+    Layout = "~/Views/_LayoutStudent.cshtml";
+}
+
+<div class="container mt-4">
+    <div class="row justify-content-between align-items-center">
+        <div class="col-md-auto">
+            <h2 class="text-center mt-5 mb-4">Welcome, @ViewBag.StudentName</h2>
+        </div>
+  
+    </div>
+</div>
+
+
+@if (ViewBag.AbsenceData != null && ((Dictionary<string, int>)ViewBag.AbsenceData).Count > 0)
+{
+    <div class="container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-body">
+                        <canvas id="absenceChart"></canvas>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="card">
+                    <div class="card-body">
+                        <h5 class="mb-3">Total Absences</h5>
+                        <p class="lead">@ViewBag.TotalAbsences</p>
+                        <h5 class="mb-3">Remaining Absences</h5>
+                        <p class="lead">@Math.Max(6 - ViewBag.TotalAbsences, 0)</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="container mt-4">
+        <div class="row">
+            <div class="col-md-12">
+                <h5 class="text-center mb-3">Absences Progress</h5>
+                <div class="progress">
+                    <div class="progress-bar bg-danger" role="progressbar" style="width: @((ViewBag.TotalAbsences * 100) / 6)%" aria-valuenow="@ViewBag.TotalAbsences" aria-valuemin="0" aria-valuemax="6" title="Absences Progress: @ViewBag.TotalAbsences out of 6"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        var ctx = document.getElementById('absenceChart').getContext('2d');
+        var absenceData = @Html.Raw(Json.Encode(ViewBag.AbsenceData));
+
+        var labels = Object.keys(absenceData);
+        var data = Object.values(absenceData);
+
+        var myChart = new Chart(ctx, {
+            type: 'pie',
+            data: {
+                labels: labels,
+                datasets: [{
+                    label: 'Absences by Subject',
+                    data: data,
+                    backgroundColor: [
+                        'rgba(255, 99, 132, 0.7)',
+                        'rgba(54, 162, 235, 0.7)',
+                        'rgba(255, 206, 86, 0.7)',
+                    ],
+                }]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false
+            }
+        });
+    </script>
+}
+else
+{
+    <p class="text-center mt-5">No absences found.</p>
+}

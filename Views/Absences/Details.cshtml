@@ -1,0 +1,42 @@
+﻿@model attendancesystem.Models.Absence
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Absence</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dateheure)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateheure)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Eleve.username)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Eleve.username)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Matiere.name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Matiere.name)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.id }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>
